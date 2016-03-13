@@ -34,20 +34,35 @@ public class TokenDaoITest {
         assertEquals(token, tokenDao.findByUser(token.getUser()));
         assertNull(tokenDao.findByUser(user));
     }
-    
+        
     @Test
-    public void testFindByExpiringTimeLessThan() {
-        Token token = (Token) daosService.getMap().get("tu1");
+    public void testFindByExpiringTimeLessThan(){
+    	Token token = (Token) daosService.getMap().get("tu2");
         Calendar time = token.getExpiringTime();
         time.add(Calendar.HOUR_OF_DAY, -2);
         token.setExpiringTime(time);
         tokenDao.save(token);
         
         List<Token> tokens = tokenDao.findByExpiringTimeLessThan(Calendar.getInstance());
-        for(Token t : tokens){
-        	tokenDao.findByUser(t.getUser());
-        }
-        assertEquals(token, tokenDao.findByExpiringTimeLessThan(Calendar.getInstance()).get(0));
+
+        assertEquals(token, tokens.get(0));
+    }
+    
+    @Test
+    public void testDeleteExpiredTokens(){
+    	Token token = (Token) daosService.getMap().get("tu1");
+        Calendar time = token.getExpiringTime();
+        time.add(Calendar.HOUR_OF_DAY, -2);
+        token.setExpiringTime(time);
+        tokenDao.save(token);
+        
+        List<Token> tokens = tokenDao.findAll();
+       
+    	tokenDao.deleteExpiredTokens();
+    	
+        List<Token> activetokens = tokenDao.findAll();
+
+        assertEquals(activetokens.size(),tokens.size()-1);
     }
 
 }
