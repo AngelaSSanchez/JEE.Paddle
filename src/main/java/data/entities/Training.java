@@ -13,35 +13,20 @@ public class Training {
 	@Id
 	private int id;
 
-	private boolean complete;
-	
 	private Calendar startHour;
 
 	@ManyToOne
     @JoinColumn
 	private Court court;
-	
-	public Court getCourt() {
-		return court;
-	}
 
-	public void setCourt(Court court) {
-		this.court = court;
+	public Training(){
+		
 	}
-
-	public Training(){}
 	
-	public Training(int id, Court court){
+	public Training(int id, Court court, Calendar startHour){
 		this.id = id;
-		this.complete = false;
-	}
-	
-	public boolean isComplete() {
-		return complete;
-	}
-
-	public void setComplete(boolean complete) {
-		this.complete = complete;
+		this.court = court;
+		this.startHour = startHour;
 	}
 
 	public int getId() {
@@ -59,9 +44,17 @@ public class Training {
 	public void setStartHour(Calendar startHour) {
 		this.startHour = startHour;
 	}
+	
+	public Court getCourt() {
+		return court;
+	}
+
+	public void setCourt(Court court) {
+		this.court = court;
+	}
 
     @Override
     public String toString() {
-        return "Training [id=" + id + ", complete=" + complete + "]";
+        return "Training [id=" + id + ", training Hour=" + startHour.getTime().toString() + "]";
     }
 }

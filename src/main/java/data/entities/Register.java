@@ -21,6 +21,18 @@ public class Register {
     @JoinColumn
     private Training training;
 
+    public Register(Training training, User user) {
+        this.training = training;
+        this.user = user;
+    }
+    
+    public Register(Training training) {
+        this(training, null);
+    }
+
+    public Register() {
+    }
+    
 	public int getId() {
 		return id;
 	}
