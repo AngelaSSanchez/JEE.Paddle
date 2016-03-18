@@ -16,6 +16,6 @@ public class ResourceNames {
 
     public static final String SERVICES = "data.services";
     
-    public static final String WEB = "data.web";
+    public static final String WEB = "web";
 
 }
