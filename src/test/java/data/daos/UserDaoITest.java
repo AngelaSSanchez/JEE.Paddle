@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +47,12 @@ public class UserDaoITest {
         assertEquals(u1, userDao.findByTokenValue(t1.getValue()));
         assertNull(userDao.findByTokenValue("kk"));
     }
+    
+    @Test
+    public void testFindByTokenIsValid() {
+        User u2 = (User) daosService.getMap().get("u1");
+        Token t2 = (Token) daosService.getMap().get("tu1");
+        assertEquals(u2, userDao.findByTokenIsValid(t2.getValue(),Calendar.getInstance()));
+    }
+
 }
