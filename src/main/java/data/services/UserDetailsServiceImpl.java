@@ -33,8 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        //User user = userDao.findByTokenIsValid(username, Calendar.getInstance());
-        User user = userDao.findByTokenValue(username);
+        User user = userDao.findByTokenIsValid(username, Calendar.getInstance());
         if (user == null) {
             user = userDao.findByUsernameOrEmail(username);
             if (user == null) {
