@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import org.apache.logging.log4j.LogManager;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
@@ -53,4 +54,5 @@ public class UserResourceFunctionalTesting {
     public void deleteAll() {
         new RestService().deleteAll();
     }
+    
 }
