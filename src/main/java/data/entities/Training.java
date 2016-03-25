@@ -3,6 +3,7 @@ package data.entities;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,21 +12,32 @@ import javax.persistence.ManyToOne;
 public class Training {
 	
 	@Id
+	@GeneratedValue
 	private int id;
 
 	private Calendar startHour;
 
+	private int numOfWeeks;
+	
 	@ManyToOne
-    @JoinColumn
+	@JoinColumn
 	private Court court;
+
+	public Court getCourt() {
+		return court;
+	}
+
+	public void setCourt(Court court) {
+		this.court = court;
+	}
 
 	public Training(){
 		
 	}
 	
-	public Training(int id, Court court, Calendar startHour){
-		this.id = id;
+	public Training(Court court, int numOfWeeks, Calendar startHour){
 		this.court = court;
+		this.numOfWeeks = numOfWeeks;
 		this.startHour = startHour;
 	}
 
@@ -44,17 +56,17 @@ public class Training {
 	public void setStartHour(Calendar startHour) {
 		this.startHour = startHour;
 	}
-	
-	public Court getCourt() {
-		return court;
+
+    public int getNumOfWeeks() {
+		return numOfWeeks;
 	}
 
-	public void setCourt(Court court) {
-		this.court = court;
+	public void setNumOfWeeks(int numOfWeeks) {
+		this.numOfWeeks = numOfWeeks;
 	}
 
-    @Override
+	@Override
     public String toString() {
-        return "Training [id=" + id + ", training Hour=" + startHour.getTime().toString() + "]";
+        return "Training [id=" + id + ", training Start Day and hour=" + startHour.getTime().toString() + "]";
     }
 }
