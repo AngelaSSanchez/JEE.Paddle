@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import data.daos.CourtDao;
 import data.daos.RegisterDao;
 import data.daos.TrainingDao;
+import data.entities.Court;
 import data.entities.Training;
 
 @Controller
@@ -16,8 +17,6 @@ public class TrainingController {
 	private TrainingDao trainingDao;
 	
 	private CourtDao courtDao;
-	
-	//private RegisterDao registerDao;
 	
 	@Autowired
 	public void setTrainingDao(TrainingDao trainingDao){
@@ -28,14 +27,10 @@ public class TrainingController {
 	public void setCourtDao(CourtDao courtDao){
 		this.courtDao = courtDao;
 	}
-/*	
-	@Autowired
-	public void setRegisterDao(RegisterDao registerDao){
-		this.registerDao = registerDao;
-	}
-*/	
+	
 	public boolean createTraining(int courtId, Calendar startDay, int numOfWeeks){
-		return true;
+        trainingDao.save(new Training(courtDao.findOne(courtId), numOfWeeks, startDay));
+        return true;
 	}
 	
 	public void deleteTraining(int trainingId){
