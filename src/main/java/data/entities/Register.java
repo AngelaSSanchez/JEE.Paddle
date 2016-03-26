@@ -56,5 +56,10 @@ public class Register {
 	public void setTraining(Training training) {
 		this.training = training;
 	}
+	
+	@Override
+    public String toString() {
+        return "Register training [id=" + id + ", training id=" + training.getId()+ " user id = "+user.getId()+"]";
+    }
 
 }
