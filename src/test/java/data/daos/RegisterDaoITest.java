@@ -2,7 +2,6 @@ package data.daos;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Test;
@@ -48,6 +47,6 @@ public class RegisterDaoITest {
     	User user = userDao.findByUsernameOrEmail(u.getUsername());
     	Training t = trainings.get(1);
     	Register r = registerDao.findByUserAndTraining(u, t);
-    	assertEquals(r,registerDao.findByUserAndTraining(user, t));
+    	assertEquals(r.toString(),registerDao.findByUserAndTraining(user, t).toString());
     }
 }

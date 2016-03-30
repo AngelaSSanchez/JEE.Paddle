@@ -34,7 +34,7 @@ public class TrainingDaoITest {
     public void testFindById(){
     	List<Training> trainings = trainingDao.findAll(); 
     	Training t = trainings.get(1);
-    	assertEquals(t, trainingDao.findById(t.getId()));
+    	assertEquals(t.toString(), trainingDao.findById(t.getId()).toString());
     }
     
     @Test
@@ -45,4 +45,5 @@ public class TrainingDaoITest {
     	List<Training> totalTrainings = trainingDao.findAll();
     	assertEquals(allTrainings.size()-1, totalTrainings.size());
     }
+    
 }
