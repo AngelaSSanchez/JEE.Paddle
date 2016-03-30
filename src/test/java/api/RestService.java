@@ -1,6 +1,8 @@
 package api;
 
 import business.api.Uris;
+import business.wrapper.AvailableTraining;
+import business.wrapper.AvailableTrainingBuilder;
 import business.wrapper.TokenWrapper;
 import business.wrapper.UserWrapper;
 import business.wrapper.UserWrapperBuilder;
@@ -18,6 +20,12 @@ public class RestService {
                 .post().build();
         return token.getToken();
     }
+    
+    public String loginTrainer() {
+        TokenWrapper token = new RestBuilder<TokenWrapper>(URL).path(Uris.TOKENS).basicAuth("trainer", "trainer").clazz(TokenWrapper.class)
+                .post().build();
+        return token.getToken();
+    }
 
     public String registerAndLoginPlayer() {
         UserWrapper player = new UserWrapperBuilder().build();
@@ -29,6 +37,11 @@ public class RestService {
     
     public void createCourt(String id) {
         new RestBuilder<Object>(URL).path(Uris.COURTS).param("id", id).basicAuth(this.loginAdmin(), "").post().build();
+    }
+    
+    public void createTraining(int numOfWeeks, int courtId) {
+    	AvailableTraining training = new AvailableTrainingBuilder(numOfWeeks, courtId).build();
+        new RestBuilder<Object>(URL).path(Uris.TRAININGS).body(training).basicAuth(this.loginTrainer(), "").post().build();
     }
 
 }
