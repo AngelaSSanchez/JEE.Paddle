@@ -11,17 +11,27 @@ public class AvailableTraining {
 	private int numOfWeek;
 	
 	private Calendar startHour;
+	 
+	private int courtId;
 	
 	public AvailableTraining(){}
 	
-	public AvailableTraining(int trainingId, Calendar startHour, int numOfWeek){
-		this.trainingId = trainingId;
+	public AvailableTraining(Calendar startHour, int numOfWeek, int courtId){
 		this.startHour = startHour;
 		this.numOfWeek = numOfWeek;
+		this.courtId = courtId;
+	}
+
+	public AvailableTraining(Training training){
+		this(training.getStartHour(), training.getNumOfWeeks(), training.getCourt().getId());
 	}
 	
-	public AvailableTraining(Training training){
-		this(training.getId(), training.getStartHour(), training.getNumOfWeeks());
+	public int getCourtId() {
+		return courtId;
+	}
+
+	public void setCourtId(int courtId) {
+		this.courtId = courtId;
 	}
 	
 	public int getTrainingId() {
