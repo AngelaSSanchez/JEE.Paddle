@@ -27,6 +27,12 @@ public class Populate {
     private String adminEmail;
 
     private String adminPassword;
+    
+    private String trainerUsername;
+
+    private String trainerEmail;
+
+    private String trainerPassword;
 
     @Autowired
     private Environment environment;
@@ -43,6 +49,19 @@ public class Populate {
         adminEmail = environment.getProperty("admin.email");
         adminPassword = environment.getProperty("admin.password");
         createDefaultAdmin();
+    }
+    
+    @PostConstruct
+    public void createDefaultTrainer(){
+    	trainerUsername = "trainer";
+    	trainerEmail = "trainer@gmail.com";
+    	trainerPassword = "trainer";
+        User trainerSaved = userDao.findByUsernameOrEmail(trainerUsername);
+        if (trainerSaved == null) {
+            User trainer = new User(trainerUsername, trainerEmail, trainerPassword, new GregorianCalendar(1979, 07, 22));
+            userDao.save(trainer);
+            authorizationDao.save(new Authorization(trainer, Role.TRAINER));
+        }
     }
 
     public void createDefaultAdmin() {
