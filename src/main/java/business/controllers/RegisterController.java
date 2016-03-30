@@ -1,10 +1,12 @@
 package business.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import business.wrapper.AvailableTraining;
 import data.daos.RegisterDao;
 import data.daos.TrainingDao;
 import data.daos.UserDao;
@@ -21,8 +23,6 @@ public class RegisterController {
 	
 	private RegisterDao registerDao;
 	
-	private List<Training> availableTrainings;
-	
     @Autowired
     public void setRegisterDao(RegisterDao registerDao) {
         this.registerDao = registerDao;
@@ -38,16 +38,15 @@ public class RegisterController {
         this.userDao = userDao;
     }
     
-    public List<Training> showAvailableTrainings(){
-    	List<Training> allTrainings = trainingDao.findAll();
+    public List<AvailableTraining> showAvailableTrainings(){
+    	List<AvailableTraining> allTrainingsAvailable = new ArrayList<>();
     	
-    	for (Training training : allTrainings){
+    	for (Training training : trainingDao.findAll()){
     		if (registerDao.findTrainingIsComplete(training.getId()) < MAXPLAYERS){
-    			availableTrainings.add(training);
+    			allTrainingsAvailable.add(new AvailableTraining(training));
     		}
     	}
-		return availableTrainings;
-    	
+		return allTrainingsAvailable;	
     }
     
     public boolean registerTraining(int trainingId, String userName) {
@@ -60,18 +59,6 @@ public class RegisterController {
         register.setUser(userDao.findByUsernameOrEmail(userName));
         registerDao.save(register);
         return true;
-    }
-    
-    public List<Training> getAvailableTrainings() {
-        return availableTrainings;
-    }
+    }   
 
-    public void setAvailableTrainings(List<Training> availableTrainings) {
-        this.availableTrainings = availableTrainings;
-    }
-    
-    @Override
-    public String toString() {
-        return "Available Trainings [training=" + availableTrainings + "]";
-    }
 }
