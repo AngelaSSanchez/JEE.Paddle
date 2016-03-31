@@ -1,7 +1,6 @@
 package data.daos;
 
 import data.entities.Training;
-import data.entities.User;
 
 public interface RegisterExtended {
 	

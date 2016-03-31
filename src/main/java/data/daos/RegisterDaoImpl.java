@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import data.entities.Register;
 import data.entities.Training;
-import data.entities.User;
 
 @Repository
 public class RegisterDaoImpl implements RegisterExtended{

@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import data.entities.Register;
 import data.entities.Training;
-import data.entities.User;
 
 public interface RegisterDao extends JpaRepository<Register, Integer>, RegisterExtended{
 	
