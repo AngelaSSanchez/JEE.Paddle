@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Spring MVC. Thymeleaf</title>
+</head>
+
+<body>
+	<h1>Create User</h1>
+
+	<form action="#" th:action="@{/create-user}" th:object="${user}" method="post">
+    	<label for="username">UserName:</label>
+        <input type="text" th:field="*{username}" />
+        
+        <label for="password">Password:</label>
+        <input type="text" th:field="*{password}" />
+            
+        <label for="email">Email:</label>
+        <input type="text" th:field="*{email}" />
+            
+        <label for="birthDate">Date of birth:</label>
+        <input type="text"  th:field="*{#calendars.format(birthDate,'dd MMM yyyy')}" value = "13 jan 1991">13 jan 2011</input>
+        
+        <input type="submit" />
+	</form>
+	
+	<p>
+		<a th:href="@{/home}">Home</a>
+	</p>
+
+</body>
+</html>

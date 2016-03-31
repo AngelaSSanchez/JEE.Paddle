@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Spring MVC. Greeting</title>
+</head>
+
+<body>
+	<h1>User List</h1>
+	<table>
+		<tr>
+			<th>UserName</th>
+			<th>Password</th>
+			<th>Email</th>
+			<th>ELIMINAR</th>
+		</tr>
+		<tr th:each="u : ${userList}">
+			<td th:text="${u.username}"></td>
+			<td th:text="${u.password}"></td>
+			<td th:text="${u.email}"></td>
+			<td><a href="#" th:href="@{/delete-user(username=${u.username})}">Borrar</a></td>
+		</tr>
+	</table>
+
+	<p>
+		<a th:href="@{/home}">Home</a>
+	</p>
+</body>
+</html>
