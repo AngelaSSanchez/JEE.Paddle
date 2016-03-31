@@ -7,6 +7,6 @@ public interface RegisterExtended {
 	
 	public void deleteTrainingRegisterPlayer(Training training);
 	
-	public void deleteTrainingPlayer(User user, Training training);
+	public void deleteTrainingPlayer(int userId, int trainingId);
 	
 }

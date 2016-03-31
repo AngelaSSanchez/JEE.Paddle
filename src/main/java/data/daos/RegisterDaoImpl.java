@@ -22,8 +22,8 @@ public class RegisterDaoImpl implements RegisterExtended{
 	}
 	
 	@Override
-	public void deleteTrainingPlayer(User user, Training training) {
-		Register register = registerDao.findByUserAndTraining(user, training);
+	public void deleteTrainingPlayer(int userId, int trainingId) {
+		Register register = registerDao.findByUserAndTraining(userId, trainingId);
 		registerDao.delete(register);
 	}
 	

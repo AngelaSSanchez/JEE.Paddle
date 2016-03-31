@@ -14,7 +14,8 @@ public interface RegisterDao extends JpaRepository<Register, Integer>, RegisterE
 	@Query(value = "select count(1) from register where training_id = ?", nativeQuery = true)
 	public int findTrainingIsComplete(int id);
 	
-	Register findByUserAndTraining(User user, Training training);
+	@Query(value = "select * from register where user_id = ?1 and training_id =?2", nativeQuery = true)
+	Register findByUserAndTraining(int userId, int trainingId);
 	
 	List<Register> findByTraining(Training trainingd);
 }
