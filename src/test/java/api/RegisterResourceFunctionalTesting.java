@@ -16,23 +16,25 @@ public class RegisterResourceFunctionalTesting {
 	@Test
 	public void testShowAvailableTrainings()
 	{
-		
+		restService.createCourt("1");
+		restService.createTraining(1, 3, 1);
+		String token = restService.registerAndLoginPlayer();
+		new RestBuilder<String>(RestService.URL).path(Uris.REGISTRATIONS).basicAuth(token, "").post().build();
 	}
 	
 	@Test
 	public void testRegisterPlayerinTraining()
 	{
 		restService.createCourt("1");
-		restService.createTraining(3, 1);
+		restService.createTraining(1, 3, 1);
         String token = restService.registerAndLoginPlayer();
         Calendar day = Calendar.getInstance();
-        day.add(Calendar.DAY_OF_YEAR, 1);
-        day.set(Calendar.HOUR_OF_DAY,12);
-        //new RestBuilder<String>(RestService.URL).path(Uris.REGISTRATION).basicAuth(token, "").body(new AvailableTraining(day, 3, 1)).post().build();
+        new RestBuilder<String>(RestService.URL).path(Uris.REGISTRATIONS).basicAuth(token, "").body(new AvailableTraining(1,day, 3, 1)).post().build();
 	}
 	
     @After
     public void deleteAll() {
         new RestService().deleteAll();
     }
+
 }
