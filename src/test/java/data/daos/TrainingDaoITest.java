@@ -22,13 +22,7 @@ public class TrainingDaoITest {
     private DaosService daosService;
 
     @Autowired
-    private RegisterDao registerDao;
-    
-    @Autowired
     private TrainingDao trainingDao;  
-    
-    @Autowired
-    private CourtDao courtDao;
     
     @Test
     public void testFindById(){
