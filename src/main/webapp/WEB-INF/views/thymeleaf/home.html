@@ -6,19 +6,14 @@
 </head>
 
 <body>
-	<h1>Home en Thymeleaf</h1>
-	<h3>ViewResolver</h3>
-	<a th:each="tm : ${themes}" th:href="@{/create-theme(theme=${tm})}" th:text="${tm}"></a>
+	<h1>Usuarios Paddle en Thymeleaf</h1>
+	<p>
+		<a th:href="@{/create-user}">Crear Usuario</a>
+	</p>
+	<p>
+		<a th:href="@{/user-list}">Lista de usuarios</a>
+	</p>
 
-	<p>
-		<a th:href="@{/greeting}">Empezar</a>
-	</p>
-	<p>
-		<a href="#">Lista de usuarios. En construcción</a>
-	</p>
-	<p>
-		<a href="#">Crear un usuario. En construcción</a>
-	</p>
 
 </body>
 </html>
