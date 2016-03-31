@@ -46,7 +46,7 @@ public class RegisterDaoITest {
     	User u = (User) daosService.getMap().get("u3");
     	User user = userDao.findByUsernameOrEmail(u.getUsername());
     	Training t = trainings.get(1);
-    	Register r = registerDao.findByUserAndTraining(u, t);
-    	assertEquals(r.toString(),registerDao.findByUserAndTraining(user, t).toString());
+    	Register r = registerDao.findByUserAndTraining(u.getId(), t.getId());
+    	assertEquals(r.toString(),registerDao.findByUserAndTraining(user.getId(), t.getId()).toString());
     }
 }
