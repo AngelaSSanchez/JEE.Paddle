@@ -17,7 +17,7 @@ import business.controllers.TrainingController;
 import business.wrapper.AvailableTraining;
 
 @RestController
-@RequestMapping(Uris.SERVLET_MAP + Uris.REGISTRATION)
+@RequestMapping(Uris.SERVLET_MAP + Uris.REGISTRATIONS)
 public class RegisterResource {
 
     private RegisterController registerController;
