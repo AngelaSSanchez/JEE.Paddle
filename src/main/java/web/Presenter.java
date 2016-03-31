@@ -41,7 +41,7 @@ public class Presenter {
     @Autowired
     private UserDao userDao;
 
-    private String theme = THEMES.get(0);
+    private String theme = THEMES.get(2);
 
     public Presenter() {
     }
@@ -58,13 +58,13 @@ public class Presenter {
         //La vista resultante no lleva extensión (.jsp) configurado en WebConfig.java
         return theme + "/home";
     }
-
+/*
     @RequestMapping("/create-theme")
     public ModelAndView theme(@RequestParam String theme) {
         this.theme = theme;
         return new ModelAndView(theme + "/home", "themes", THEMES);
     }
-
+*/
     @RequestMapping(value = "/greeting")
     public String greeting(@CookieValue("JSESSIONID") Cookie cookie, HttpServletRequest request, Model model) {
         model.addAttribute("stringList", Arrays.asList("uno", "dos", "tres"));
@@ -72,14 +72,14 @@ public class Presenter {
         model.addAttribute("ip", request.getRemoteAddr());
         return theme + "/greeting";
     }
-
+    /*
     @RequestMapping("/user-list")
     public ModelAndView listUsers() {
         ModelAndView modelAndView = new ModelAndView(theme + "/userList");
         modelAndView.addObject("userList", userDao.findAll());
         return modelAndView;
     }
-/*
+
     @RequestMapping(value = {"/delete-user/{id}"})
     public String deleteUser(@PathVariable int id, Model model) {
         userService.delete(id);

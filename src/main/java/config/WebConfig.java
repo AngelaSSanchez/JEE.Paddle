@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -22,6 +23,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*").maxAge(3600);
     }
+    
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/static/**").addResourceLocations("/static/");
+    }
+
     
     @Bean
     public TemplateResolver templateResolver() {
@@ -43,7 +50,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public ViewResolver thymeleafViewResolver() {
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
-        viewResolver.setOrder(1);
+        //viewResolver.setOrder(1);
         viewResolver.setViewNames(new String[] {"thymeleaf/*"});
         return viewResolver;
     }
