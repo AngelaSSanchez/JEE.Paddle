@@ -49,9 +49,9 @@ public class Populate {
         adminEmail = environment.getProperty("admin.email");
         adminPassword = environment.getProperty("admin.password");
         createDefaultAdmin();
+        createDefaultTrainer();
     }
     
-    @PostConstruct
     public void createDefaultTrainer(){
     	trainerUsername = "trainer";
     	trainerEmail = "trainer@gmail.com";
