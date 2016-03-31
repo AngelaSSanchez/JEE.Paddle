@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import business.api.exceptions.AllreadyExistTrainingException;
 import business.api.exceptions.InvalidCourtReserveException;
+import business.api.exceptions.InvalidDeletingPlayerFromTrainingException;
+import business.api.exceptions.InvalidTrainingDeletingException;
 import business.api.exceptions.NotFoundTrainingIdException;
 import business.controllers.ReserveController;
 import business.controllers.TrainingController;
@@ -34,15 +37,16 @@ public class TrainingResource {
     }
     
     @RequestMapping(value = Uris.ID, method = RequestMethod.DELETE)
-    public void deleteTraining(@PathVariable int id) throws NotFoundTrainingIdException {
+    public void deleteTraining(@PathVariable int id) throws InvalidTrainingDeletingException {
         if (!trainingController.deleteTraining(id)) {
-            //throw new NotFoundTrainingIdException("id: " + id);
+            throw new InvalidTrainingDeletingException("id: " + id);
         }
     }
     
     @RequestMapping(method = RequestMethod.POST)
     public void createTraining(@AuthenticationPrincipal User activeUser, @RequestBody AvailableTraining availableTraining)
-    throws InvalidCourtReserveException{
+    throws InvalidCourtReserveException,
+    AllreadyExistTrainingException{
     	for(int i = 0; i < availableTraining.getNumOfWeek(); i++){
 	        if (!reserveController.reserveCourt(availableTraining.getCourtId(), availableTraining.getStartHour(), activeUser.getUsername())) {
 	            throw new InvalidCourtReserveException(availableTraining.getCourtId() + "-" + availableTraining.getStartHour());
@@ -51,14 +55,15 @@ public class TrainingResource {
     	}
     	availableTraining.getStartHour().add(Calendar.DAY_OF_YEAR, -(WEEK*availableTraining.getNumOfWeek()));
     	if(!trainingController.createTraining(availableTraining.getCourtId(), availableTraining.getStartHour(), availableTraining.getNumOfWeek())){
-    		throw new InvalidCourtReserveException(availableTraining.getCourtId() + "-" + availableTraining.getStartHour());
+    		throw new AllreadyExistTrainingException(availableTraining.getCourtId() + "-" + availableTraining.getStartHour());
     	}
     }
     
     @RequestMapping(value = Uris.ID + Uris.USERS + Uris.ID, method = RequestMethod.DELETE)
-    public void deletePlayerFromTraining(@PathVariable int trainingId, @RequestParam int userId){
+    public void deletePlayerFromTraining(@PathVariable int trainingId, @RequestParam int userId)
+    throws InvalidDeletingPlayerFromTrainingException{
     	if(!trainingController.deletePlayerFromTraining(trainingId, userId)){
-    		//throw new ActionDeletePlayerNotAllowed();
+    		throw new InvalidDeletingPlayerFromTrainingException(trainingId+ "-" + userId);
     	}
     }
 }
