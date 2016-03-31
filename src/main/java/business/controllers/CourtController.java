@@ -14,7 +14,7 @@ import data.entities.Court;
 public class CourtController {
 
     private CourtDao courtDao;
-
+    
     @Autowired
     public void setCourtDao(CourtDao courtDao) {
         this.courtDao = courtDao;

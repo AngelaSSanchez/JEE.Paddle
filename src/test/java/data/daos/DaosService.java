@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import data.entities.Authorization;
 import data.entities.Court;
+import data.entities.Register;
 import data.entities.Reserve;
 import data.entities.Role;
 import data.entities.Token;
+import data.entities.Training;
 import data.entities.User;
 import data.services.DataService;
 
@@ -36,6 +38,12 @@ public class DaosService {
 
     @Autowired
     private ReserveDao reserveDao;
+    
+    @Autowired
+    private TrainingDao trainingDao;
+
+    @Autowired
+    private RegisterDao registerDao;
 
     @Autowired
     private DataService genericService;
@@ -55,6 +63,14 @@ public class DaosService {
         for (User user : this.createPlayers(4, 4)) {
             map.put(user.getUsername(), user);
         }
+        User[] trainers = this.createTrainers(8,3);
+        
+        for (User trainer : trainers) {
+            map.put(trainer.getUsername(), trainer);
+        }
+        for (Token token : this.createTokens(trainers)) {
+            map.put("t" + token.getUser().getUsername(), token);
+        }
         this.createCourts(1, 4);
         Calendar date = Calendar.getInstance();
         date.add(Calendar.DAY_OF_YEAR, 1);
@@ -65,7 +81,18 @@ public class DaosService {
         for (int i = 0; i < 4; i++) {
             date.add(Calendar.HOUR_OF_DAY, 1);
             reserveDao.save(new Reserve(courtDao.findOne(i+1), users[i], date));
+        }    
+        for (int i = 0; i < trainers.length; i++) {
+            date.add(Calendar.HOUR_OF_DAY, 1);
+            trainingDao.save(new Training(courtDao.findOne(i+1),4,date));  
+            this.reserveCourt(courtDao.findOne(i+1),4,date,trainers[i]);
         }
+        for (int i = 0; i < 3; i++) {
+        	for (int j = 0; j < 4; j++) {
+        		registerDao.save(new Register(trainingDao.findOne(i+1), users[j]));
+        	}
+        }
+        
     }
 
     public User[] createPlayers(int initial, int size) {
@@ -76,6 +103,16 @@ public class DaosService {
             authorizationDao.save(new Authorization(users[i], Role.PLAYER));
         }
         return users;
+    }
+    
+    public User[] createTrainers(int initial, int size) {
+        User[] trainers = new User[size];
+        for (int i = 0; i < size; i++) {
+        	trainers[i] = new User("u" + (i + initial), "u" + (i + initial) + "@gmail.com", "p", Calendar.getInstance());
+            userDao.save(trainers[i]);
+            authorizationDao.save(new Authorization(trainers[i], Role.TRAINER));
+        }
+        return trainers;
     }
 
     public List<Token> createTokens(User[] users) {
@@ -88,13 +125,24 @@ public class DaosService {
         }
         return tokenList;
     }
+    
+    public void reserveCourt(Court court, int weeks, Calendar startDay, User trainer){
+    	Calendar date = startDay;
+    	for (int i = 0 ; i < weeks; i++){
+    		reserveDao.save(new Reserve(court, trainer, date));
+    		date.add(Calendar.DAY_OF_YEAR,7);
+    	}
+    	for (int i = 0 ; i < weeks; i++){
+    		date.add(Calendar.DAY_OF_YEAR,-7);
+    	}
+    }
 
     public void createCourts(int initial, int size) {
         for (int id = 0; id < size; id++) {
             courtDao.save(new Court(id + initial));
         }
     }
-
+    
     public Map<String, Object> getMap() {
         return map;
     }

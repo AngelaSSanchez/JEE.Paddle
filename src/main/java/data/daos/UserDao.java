@@ -1,5 +1,7 @@
 package data.daos;
 
+import java.util.Calendar;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,6 +11,9 @@ public interface UserDao extends JpaRepository<User, Integer> {
     
     @Query("select token.user from Token token where token.value = ?1")
     public User findByTokenValue(String tokenValue);
+    
+    @Query("select token.user from Token token where token.value = ?1 and token.expiringTime > ?2")
+    public User findByTokenIsValid(String tokenValue, Calendar calendar);
 
     @Query("select user from User user where user.username = ?1 or user.email = ?1")
     public User findByUsernameOrEmail(String id);

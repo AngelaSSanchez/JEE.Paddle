@@ -2,6 +2,7 @@ package data.services;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -32,7 +33,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
-        User user = userDao.findByTokenValue(username);
+        User user = userDao.findByTokenIsValid(username, Calendar.getInstance());
         if (user == null) {
             user = userDao.findByUsernameOrEmail(username);
             if (user == null) {
