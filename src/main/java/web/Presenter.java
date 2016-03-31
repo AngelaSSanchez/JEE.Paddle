@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 
+import business.wrapper.UserWrapper;
 import data.daos.UserDao;
 import data.entities.User;
 
@@ -33,31 +34,22 @@ import data.entities.User;
 @SessionAttributes("name")
 public class Presenter {
 
-    private static final List<String> THEMES = Arrays.asList("jsp", "bootstrap", "thymeleaf");
-
     @Autowired
     private ServletContext servletContext;
 
     @Autowired
     private UserDao userDao;
 
-    private String theme = THEMES.get(2);
+    private String theme = "thymeleaf";
 
     public Presenter() {
     }
 
-    // Se ejecuta siempre y antes. Añade un atributo al Model
-    @ModelAttribute("now")
-    public String now() {
-        return new SimpleDateFormat("EEEE, d MMM yyyy HH:mm:ss").format(new Date());
-    }
-
     @RequestMapping("/home")
     public String home(Model model) {
-        model.addAttribute("themes", THEMES);
-        //La vista resultante no lleva extensión (.jsp) configurado en WebConfig.java
         return theme + "/home";
     }
+    
 /*
     @RequestMapping("/create-theme")
     public ModelAndView theme(@RequestParam String theme) {
@@ -72,7 +64,7 @@ public class Presenter {
         model.addAttribute("ip", request.getRemoteAddr());
         return theme + "/greeting";
     }
-    /*
+    
     @RequestMapping("/user-list")
     public ModelAndView listUsers() {
         ModelAndView modelAndView = new ModelAndView(theme + "/userList");
@@ -80,32 +72,35 @@ public class Presenter {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/delete-user/{id}"})
-    public String deleteUser(@PathVariable int id, Model model) {
-        userService.delete(id);
+    @RequestMapping(value = {"/delete-user/{username}"})
+    public String deleteUser(@PathVariable String username, Model model) {
+    	User u = userDao.findByUsernameOrEmail(username);
+        userDao.delete(u.getId());
         model.addAttribute("userList", userDao.findAll());
         return theme + "/userList";
     }
 
     @RequestMapping(value = "/create-user", method = RequestMethod.GET)
     public String createUser(Model model) {
-        model.addAttribute("user", new User(userDao.generateId()));
-        model.addAttribute("languageMap", userDao.languageMap());
+        model.addAttribute("user", new UserWrapper());
         return theme + "/createUser";
     }
 
     @RequestMapping(value = "/create-user", method = RequestMethod.POST)
     public String createUserSubmit(@Valid User user, BindingResult bindingResult, Model model) {
         if (!bindingResult.hasErrors()) {
-            if (userDao.save(user)) {
-                model.addAttribute("name", user.getName());
+            if (userDao.save(user) != null) {
+                model.addAttribute("username", user.getUsername());
+                model.addAttribute("password", user.getPassword());
+                model.addAttribute("email", user.getEmail());
+                //Date time = new DateTime();
+                model.addAttribute("birthDate", user.getBirthDate());
                 return theme + "/registrationSuccess";
             } else {
                 bindingResult.rejectValue("id", "error.user", "Usuario ya existente");
             }
         }
-        model.addAttribute("languageMap", userDao.languageMap());
         return theme + "/createUser";
     }
-*/
+
 }
