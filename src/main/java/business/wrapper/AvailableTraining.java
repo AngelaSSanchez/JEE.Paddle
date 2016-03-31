@@ -1,5 +1,6 @@
 package business.wrapper;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import data.entities.Training;
@@ -16,14 +17,15 @@ public class AvailableTraining {
 	
 	public AvailableTraining(){}
 	
-	public AvailableTraining(Calendar startHour, int numOfWeek, int courtId){
+	public AvailableTraining(int trainingId, Calendar startHour, int numOfWeek, int courtId){
 		this.startHour = startHour;
 		this.numOfWeek = numOfWeek;
 		this.courtId = courtId;
+		this.trainingId = trainingId;
 	}
 
 	public AvailableTraining(Training training){
-		this(training.getStartHour(), training.getNumOfWeeks(), training.getCourt().getId());
+		this(training.getId(), training.getStartHour(), training.getNumOfWeeks(), training.getCourt().getId());
 	}
 	
 	public int getCourtId() {
@@ -60,6 +62,7 @@ public class AvailableTraining {
 	
     @Override
     public String toString() {
-        return "Available Trainings [training=" + this.trainingId + ", start time ="+this.startHour+", number of Weeks="+this.numOfWeek+"]";
+    	String time = new SimpleDateFormat("HH:00 dd-MMM-yyyy ").format(startHour.getTime());
+        return "Available Trainings [training=" + this.trainingId + ", start time ="+time+", number of Weeks="+this.numOfWeek+", courtId="+this.courtId+"]";
     }
 }
