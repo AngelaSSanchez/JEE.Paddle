@@ -18,7 +18,7 @@ public class Uris {
     
     public static final String RESERVES = "/reserves";
     
-    public static final String REGISTRATION = "/registration";
+    public static final String REGISTRATIONS = "/registrations";
     
     public static final String TRAININGS = "/trainings";
     
